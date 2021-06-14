@@ -9,10 +9,18 @@ namespace TestNinja.Mocking
 {
     public class VideoService
     {
-        public string ReadVideoTitle()
+        public string ReadVideoTitle(IFileReader fileReader)
         {
-            var str = File.ReadAllText("video.txt");
-            var video = JsonConvert.DeserializeObject<Video>(str);
+            //Using new here makes this code tightly coupled to FileReader to decouple we need to pass an instance of the FileReader class instead.
+            //Three ways to do this
+            // 1. Dependency Injection via Method Parameters
+            // 2. Dependency Injection via Properties
+            // 2. Dependency Injection via Constructor
+
+            var str = fileReader.Read("video.txt");
+
+
+             var video = JsonConvert.DeserializeObject<Video>(str);
             if (video == null)
                 return "Error parsing the video.";
             return video.Title;
