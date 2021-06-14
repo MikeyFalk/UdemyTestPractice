@@ -9,22 +9,23 @@ namespace TestNinja.Mocking
 {
     public class VideoService
     {
-        public IFileReader FileReader { get; set; }
+        private IFileReader _fileReader; 
 
-        public VideoService()
+        
+        public VideoService(IFileReader fileReader = null)
         {
-            FileReader = new FileReader();
+            _fileReader = fileReader ?? new FileReader();
         }
 
         public string ReadVideoTitle()
         {
-            //Using new here makes this code tightly coupled to FileReader to decouple we need to pass an instance of the FileReader class instead.
+            //Using new here makes this code tightly coupled to _fileReader to decouple we need to pass an instance of the _fileReader class instead.
             //Three ways to do this
             // 1. Dependency Injection via Method Parameters
             // 2. Dependency Injection via Properties
             // 2. Dependency Injection via Constructor
 
-            var str = FileReader.Read("video.txt");
+            var str = _fileReader.Read("video.txt");
 
 
              var video = JsonConvert.DeserializeObject<Video>(str);
